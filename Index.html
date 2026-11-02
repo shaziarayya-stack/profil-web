@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M Shazia Rayyatama - Professional Athlete Profile</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        electricBlue: '#00f2fe',
+                        electricBlueGlow: '#4facfe',
+                        neonLime: '#a8ff78',
+                        neonLimeGlow: '#78ffd6',
+                        darkBg: '#090d16',
+                        cardBg: '#131c31',
+                        borderBg: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                        display: ['Teko', 'Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #090d16;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Teko', sans-serif;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(19, 28, 49, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(0, 242, 254, 0.2);
+        }
+
+        /* Scrollbar custom */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #00f2fe, #a8ff78);
+            border-radius: 4px;
+        }
+
+        /* Sporty Tech Grid Pattern */
+        .tech-grid {
+            background-size: 32px 32px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen selection:bg-neonLime selection:text-slate-950 tech-grid">
+
+    <!-- Canvas Partikel Interaktif -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 w-full z-50 px-4 sm:px-8 py-4">
+        <nav class="max-w-6xl mx-auto glass-panel rounded-2xl px-6 py-3 flex items-center justify-between shadow-2xl">
+            <!-- Brand Logo -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-electricBlue to-neonLime flex items-center justify-center text-slate-950 font-black font-display text-2xl tracking-wider shadow-lg group-hover:scale-105 transition-transform">
+                    MSR
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-white text-sm tracking-wide group-hover:text-electricBlue transition-colors">M Shazia Rayyatama</span>
+                    <span class="text-[10px] tracking-widest uppercase text-neonLime font-semibold">Pro Athlete</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Menu -->
+            <div class="hidden md:flex items-center space-x-8 font-semibold text-xs tracking-wider uppercase text-slate-300">
+                <a href="#biodata" class="hover:text-electricBlue transition-colors">Biodata</a>
+                <a href="#stats" class="hover:text-electricBlue transition-colors">Atribut & Statistik</a>
+                <a href="#gallery" class="hover:text-electricBlue transition-colors">Galeri Latihan</a>
+                <a href="#timeline" class="hover:text-electricBlue transition-colors">Perjalanan</a>
+                <a href="#contact" class="hover:text-electricBlue transition-colors">Kontak</a>
+            </div>
+
+            <!-- CTA / Mobile Toggle -->
+            <div class="flex items-center gap-3">
+                <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-electricBlue to-neonLime text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md hover:scale-105">
+                    <i class="fas fa-paper-plane text-xs"></i>
+                    <span>Kontak</span>
+                </a>
+                
+                <button id="mobile-menu-btn" aria-label="Toggle Mobile Menu" class="md:hidden p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:text-white">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden mt-3 max-w-6xl mx-auto glass-panel rounded-2xl p-5 shadow-2xl flex flex-col space-y-4 font-semibold text-sm uppercase tracking-wider">
+            <a href="#biodata" class="mobile-link hover:text-electricBlue py-1">Biodata</a>
+            <a href="#stats" class="mobile-link hover:text-electricBlue py-1">Atribut & Statistik</a>
+            <a href="#gallery" class="mobile-link hover:text-electricBlue py-1">Galeri Latihan</a>
+            <a href="#timeline" class="mobile-link hover:text-electricBlue py-1">Perjalanan</a>
+            <a href="#contact" class="mobile-link hover:text-electricBlue py-1">Kontak</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen pt-32 pb-20 px-4 sm:px-8 flex items-center justify-center relative z-10">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Hero Left Content -->
+            <div class="lg:col-span-7 text-center lg:text-left">
+                <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-electricBlue/10 text-electricBlue border border-electricBlue/30 mb-6 inline-flex items-center gap-2 uppercase tracking-widest">
+                    <i class="fas fa-medal text-neonLime"></i> Professional Athlete Aspirant
+                </span>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-none mb-6 uppercase">
+                    <span class="block text-white">M Shazia</span>
+                    <span class="bg-gradient-to-r from-electricBlue via-neonLime to-neonLime bg-clip-text text-transparent">
+                        Rayyatama
+                    </span>
+                </h1>
+
+                <p class="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 mb-8 font-light leading-relaxed">
+                    Atlet muda berbakat berusia <span class="text-electricBlue font-bold">15 tahun</span> asal Bandung dengan dedikasi tinggi pada <span class="text-neonLime font-bold">Olahraga & Kebugaran Fisik</span>, siap menorehkan prestasi di kancah nasional maupun internasional.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10">
+                    <a href="#stats" class="px-8 py-4 rounded-xl bg-gradient-to-r from-electricBlue to-neonLime text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-105 flex items-center gap-2">
+                        <i class="fas fa-chart-line text-xs"></i>
+                        <span>Lihat Statistik Atlet</span>
+                    </a>
+                    <a href="#biodata" class="px-8 py-4 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all border border-slate-700 flex items-center gap-2">
+                        <i class="fas fa-user text-xs text-electricBlue"></i>
+                        <span>Detail Profil</span>
+                    </a>
+                </div>
+
+                <!-- Live Quick Stats -->
+                <div class="grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <h4 class="text-2xl sm:text-3xl font-black text-electricBlue font-display" data-target="15">0</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold">Usia (Tahun)</p>
+                    </div>
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <h4 class="text-2xl sm:text-3xl font-black text-neonLime font-display" data-target="100">%</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold">Dedikasi Latihan</p>
+                    </div>
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <h4 class="text-2xl sm:text-3xl font-black text-cyan-300 font-display" data-target="2026">0</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold">Peak Training</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Right Athlete HUD Card -->
+            <div class="lg:col-span-5">
+                <div class="glass-panel p-6 rounded-3xl relative overflow-hidden group shadow-2xl border-electricBlue/20">
+                    <div class="absolute -top-12 -right-12 w-40 h-40 bg-electricBlue/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-neonLime/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <!-- Card Header -->
+                    <div class="flex items-center justify-between border-b border-slate-700/60 pb-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <span class="w-12 h-12 rounded-2xl bg-electricBlue/10 border border-electricBlue/30 flex items-center justify-center font-display text-3xl font-bold text-electricBlue">29</span>
+                            <div>
+                                <h3 class="text-base font-black text-white leading-tight">ELITE ATHLETE CARD</h3>
+                                <p class="text-[10px] text-slate-400 tracking-widest uppercase">ID: MSR-BDG-2011</p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-neonLime/10 border border-neonLime/30 text-neonLime text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-neonLime animate-ping"></span>
+                            ACTIVE
+                        </span>
+                    </div>
+
+                    <!-- Avatar Box -->
+                    <div class="aspect-square rounded-2xl bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700/80 flex flex-col items-center justify-center p-6 relative overflow-hidden mb-6">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10"></div>
+                        <i class="fas fa-running text-7xl text-electricBlue mb-3 z-0 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="z-20 text-center">
+                            <h4 class="text-2xl font-black text-white font-display tracking-wider">M SHAZIA RAYYATAMA</h4>
+                            <p class="text-xs text-neonLime font-bold uppercase tracking-widest">Professional Athlete Goal</p>
+                        </div>
+                    </div>
+
+                    <!-- HUD Attributes Mini -->
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block font-semibold">SPEED</span>
+                            <span class="text-lg font-bold text-electricBlue font-display">96</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block font-semibold">STAMINA</span>
+                            <span class="text-lg font-bold text-neonLime font-display">94</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block font-semibold">DISCIPLINE</span>
+                            <span class="text-lg font-bold text-cyan-300 font-display">98</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section Biodata -->
+    <section id="biodata" class="py-20 px-4 sm:px-8 relative z-10 bg-slate-950/80">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-electricBlue mb-2 block">Informasi Personal</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Biodata Atlet</h2>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-electricBlue to-neonLime mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Nama -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-electricBlue/10 border border-electricBlue/30 flex items-center justify-center text-electricBlue text-2xl shrink-0">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Nama Lengkap</span>
+                        <h3 class="text-lg font-bold text-white mt-1">M Shazia Rayyatama</h3>
+                        <p class="text-xs text-slate-400 mt-1">Inisial Logo: MSR</p>
+                    </div>
+                </div>
+
+                <!-- Umur -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-neonLime/10 border border-neonLime/30 flex items-center justify-center text-neonLime text-2xl shrink-0">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Usia Saat Ini</span>
+                        <h3 class="text-lg font-bold text-white mt-1">15 Tahun</h3>
+                        <p class="text-xs text-slate-400 mt-1">Generasi Atlet Masa Depan</p>
+                    </div>
+                </div>
+
+                <!-- TTL -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400 text-2xl shrink-0">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Tempat & Tanggal Lahir</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Bandung, 29 Juli 2011</h3>
+                        <p class="text-xs text-slate-400 mt-1">Jawa Barat, Indonesia</p>
+                    </div>
+                </div>
+
+                <!-- Hobi -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl shrink-0">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Hobi Utama</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Olahraga & Kebugaran</h3>
+                        <p class="text-xs text-slate-400 mt-1">Latihan Fisik & Ketahanan Tubuh</p>
+                    </div>
+                </div>
+
+                <!-- Cita-cita -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4 md:col-span-2 lg:col-span-2 border-neonLime/40 bg-neonLime/5">
+                    <div class="w-14 h-14 rounded-2xl bg-neonLime/20 border border-neonLime/40 flex items-center justify-center text-neonLime text-2xl shrink-0">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-neonLime font-bold uppercase tracking-wider">Cita-Cita Impian</span>
+                        <h3 class="text-xl font-extrabold text-white mt-1">Atlet Profesional (Professional Athlete)</h3>
+                        <p class="text-xs text-slate-300 mt-1">Berkompetisi di tingkat tertinggi cabang olahraga pilihan, mengharumkan nama bangsa, dan menginspirasi generasi muda melalui sportivitas.</p>
+                    </div>
+                </div>
+
+                <!-- Alamat -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4 md:col-span-2 lg:col-span-3">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-2xl shrink-0">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Alamat Domisili</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Jl. Gama No. 35</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Bandung, Jawa Barat, Indonesia</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Atribut & Statistik Atlet -->
+    <section id="stats" class="py-20 px-4 sm:px-8 relative z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-neonLime mb-2 block">Performa & Skill</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Atribut & Statistik Atletik</h2>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-neonLime to-electricBlue mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Physical Attributes Box -->
+                <div class="glass-panel p-8 rounded-3xl relative overflow-hidden border-electricBlue/30">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-electricBlue/20 text-electricBlue flex items-center justify-center text-2xl font-bold">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Kemampuan Fisik</h3>
+                            <p class="text-xs text-slate-400">Kecepatan, ketahanan, dan kelincahan tubuh</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Kecepatan (Speed & Acceleration)</span>
+                                <span class="text-electricBlue">96%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-electricBlue to-cyan-400 h-full rounded-full" style="width: 96%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Stamina & Daya Tahan (Endurance)</span>
+                                <span class="text-electricBlue">94%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-electricBlue to-blue-500 h-full rounded-full" style="width: 94%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Kelincahan (Agility & Footwork)</span>
+                                <span class="text-electricBlue">92%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-electricBlue to-teal-400 h-full rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mental & Mindset Box -->
+                <div class="glass-panel p-8 rounded-3xl relative overflow-hidden border-neonLime/30">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-neonLime/20 text-neonLime flex items-center justify-center text-2xl font-bold">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Mental & Fokus Juara</h3>
+                            <p class="text-xs text-slate-400">Disiplin latihan dan mentalitas kompetitif</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Disiplin Latihan (Consistency)</span>
+                                <span class="text-neonLime">98%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-neonLime to-emerald-400 h-full rounded-full" style="width: 98%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Fokus & Ketenangan (Focus)</span>
+                                <span class="text-neonLime">95%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-neonLime to-green-500 h-full rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Kerja Sama Tim (Teamwork)</span>
+                                <span class="text-neonLime">93%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-neonLime to-teal-300 h-full rounded-full" style="width: 93%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Galeri Latihan -->
+    <section id="gallery" class="py-20 px-4 sm:px-8 relative z-10 bg-slate-950/80">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-electricBlue mb-2 block">Aktivitas Fisik</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Galeri Sesi Latihan</h2>
+                <p class="text-sm text-slate-400 max-w-xl mx-auto mt-2">Dokumentasi momen latihan fisik, penguatan otot, dan ketahanan di lapangan.</p>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-electricBlue to-neonLime mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Gallery Card 1 -->
+                <div class="glass-card rounded-3xl overflow-hidden group">
+                    <div class="h-48 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-electricBlue/10 group-hover:bg-electricBlue/20 transition-colors"></div>
+                        <i class="fas fa-running text-6xl text-electricBlue group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-[10px] text-electricBlue uppercase font-bold tracking-widest block mb-1">Speed Training</span>
+                        <h3 class="text-lg font-bold text-white mb-2">Latihan Sprint & Kecepatan</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Meningkatkan akselerasi lari pendek dan daya ledak otot kaki.</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Card 2 -->
+                <div class="glass-card rounded-3xl overflow-hidden group">
+                    <div class="h-48 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-neonLime/10 group-hover:bg-neonLime/20 transition-colors"></div>
+                        <i class="fas fa-dumbbell text-6xl text-neonLime group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-[10px] text-neonLime uppercase font-bold tracking-widest block mb-1">Strength Workout</span>
+                        <h3 class="text-lg font-bold text-white mb-2">Penguatan Fisik & Core</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Latihan beban terukur untuk menjaga stabilitas postur tubuh atlet.</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Card 3 -->
+                <div class="glass-card rounded-3xl overflow-hidden group">
+                    <div class="h-48 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-cyan-400/10 group-hover:bg-cyan-400/20 transition-colors"></div>
+                        <i class="fas fa-heartbeat text-6xl text-cyan-400 group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest block mb-1">Endurance & Cardio</span>
+                        <h3 class="text-lg font-bold text-white mb-2">Daya Tahan Kardiovaskular</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Menjaga kapasitas paru-paru dan stamina prima selama pertandingan panjang.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Timeline Perjalanan -->
+    <section id="timeline" class="py-20 px-4 sm:px-8 relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-neonLime mb-2 block">Rekam Jejak</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Perjalanan Atletik</h2>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-neonLime to-electricBlue mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="space-y-6">
+                
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-electricBlue/20 text-electricBlue flex items-center justify-center font-display text-xl font-bold shrink-0">
+                        01
+                    </div>
+                    <div>
+                        <span class="text-xs text-electricBlue font-bold uppercase">2024 - Fondasi Awal</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Mulai Rutin Berlatih Fisik & Olahraga</h3>
+                        <p class="text-xs text-slate-400 mt-1">Membangun kebiasaan bangun pagi, olahraga teratur, dan menjaga pola hidup sehat di Bandung.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-neonLime/20 text-neonLime flex items-center justify-center font-display text-xl font-bold shrink-0">
+                        02
+                    </div>
+                    <div>
+                        <span class="text-xs text-neonLime font-bold uppercase">2025 - Peningkatan Intensitas</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Fokus Pembentukan Fisik & Ketahanan</h3>
+                        <p class="text-xs text-slate-400 mt-1">Mengikuti program latihan mandiri dan terarah untuk meningkatkan kecepatan serta daya tahan tubuh.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-400/20 text-cyan-400 flex items-center justify-center font-display text-xl font-bold shrink-0">
+                        03
+                    </div>
+                    <div>
+                        <span class="text-xs text-cyan-400 font-bold uppercase">2026 & Masa Depan</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Menuju Karier Atlet Profesional Penuh</h3>
+                        <p class="text-xs text-slate-400 mt-1">Mempersiapkan diri secara maksimal untuk terjun ke kompetisi resmi dan mewujudkan cita-cita sebagai atlet profesional.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Kontak -->
+    <section id="contact" class="py-20 px-4 sm:px-8 relative z-10 bg-slate-950/80">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-electricBlue mb-2 block">Hubungi Saya</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Kontak & Lokasi</h2>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-electricBlue to-neonLime mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Contact Info -->
+                <div class="lg:col-span-5 space-y-4">
+                    
+                    <div class="glass-card p-6 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xl shrink-0">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Alamat Domisili</span>
+                            <p class="text-xs font-bold text-white mt-1">Jl. Gama No. 35, Bandung</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-electricBlue/10 border border-electricBlue/30 flex items-center justify-center text-electricBlue text-xl shrink-0">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Email</span>
+                            <p class="text-sm font-bold text-white mt-0.5">m.shazia.rayyatama@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-neonLime/10 border border-neonLime/30 flex items-center justify-center text-neonLime text-xl shrink-0">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">WhatsApp</span>
+                            <p class="text-sm font-bold text-white mt-0.5">+62 812-XXXX-XXXX</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl text-center">
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider block mb-4">Media Sosial</span>
+                        <div class="flex justify-center gap-4">
+                            <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-electricBlue hover:text-slate-950 text-slate-300 flex items-center justify-center transition-all border border-slate-700">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" aria-label="TikTok" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-electricBlue hover:text-slate-950 text-slate-300 flex items-center justify-center transition-all border border-slate-700">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                            <a href="#" aria-label="YouTube" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-electricBlue hover:text-slate-950 text-slate-300 flex items-center justify-center transition-all border border-slate-700">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Form Pesan -->
+                <div class="lg:col-span-7">
+                    <form id="contact-form" class="glass-panel p-6 sm:p-8 rounded-3xl space-y-4 shadow-2xl">
+                        <h3 class="text-lg font-bold text-white mb-2">Kirim Pesan & Dukungan</h3>
+                        
+                        <div>
+                            <label for="name" class="block text-xs font-semibold text-slate-300 uppercase mb-1">Nama Lengkap</label>
+                            <input type="text" id="name" required placeholder="Masukkan nama Anda" class="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-electricBlue transition-all">
+                        </div>
+
+                        <div>
+                            <label for="contact-info" class="block text-xs font-semibold text-slate-300 uppercase mb-1">Email / WhatsApp</label>
+                            <input type="text" id="contact-info" required placeholder="Kontak yang bisa dihubungi" class="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-electricBlue transition-all">
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-xs font-semibold text-slate-300 uppercase mb-1">Pesan / Dukungan</label>
+                            <textarea id="message" rows="4" required placeholder="Tuliskan pesan atau kalimat dukungan untuk Shazia..." class="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-electricBlue transition-all"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-electricBlue to-neonLime text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-lg hover:scale-[1.01] flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane text-xs"></i>
+                            <span>Kirim Pesan Ke Shazia</span>
+                        </button>
+
+                        <div id="form-toast" class="hidden p-3 rounded-xl text-center text-xs font-bold transition-all"></div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 text-center text-xs text-slate-500 border-t border-slate-800/80 relative z-10">
+        <p>© 2026 M Shazia Rayyatama. All rights reserved.</p>
+        <p class="mt-1">Jl. Gama No. 35, Bandung 🇮🇩</p>
+    </footer>
+
+    <!-- JavaScript Vanilla -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 2. Animated Counter
+        const counters = document.querySelectorAll('[data-target]');
+        let animated = false;
+
+        function runCounters() {
+            const heroSection = document.getElementById('hero');
+            const rect = heroSection.getBoundingClientRect();
+            if (rect.top <= window.innerHeight && !animated) {
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    let count = 0;
+                    const increment = Math.ceil(target / 40);
+                    const timer = setInterval(() => {
+                        count += increment;
+                        if (count >= target) {
+                            counter.innerText = (counter.innerText.includes('%') ? target + '%' : target);
+                            clearInterval(timer);
+                        } else {
+                            counter.innerText = (counter.innerText.includes('%') ? count + '%' : count);
+                        }
+                    }, 40);
+                });
+                animated = true;
+            }
+        }
+
+        // 3. Canvas Background Particle Animation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#00f2fe';
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor(width / 24);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 242, 254, ${1 - dist / 110})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // 4. Contact Form Toast
+        const contactForm = document.getElementById('contact-form');
+        const formToast = document.getElementById('form-toast');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formToast.classList.remove('hidden');
+            formToast.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border', 'border-emerald-500/40');
+            formToast.innerText = 'Pesan Anda berhasil dikirimkan ke M Shazia Rayyatama!';
+            contactForm.reset();
+
+            setTimeout(() => {
+                formToast.classList.add('hidden');
+            }, 5000);
+        });
+
+        // Initialize On Load
+        window.onload = function() {
+            resizeCanvas();
+            initParticles();
+            animateCanvas();
+            runCounters();
+        };
+
+        window.onresize = function() {
+            resizeCanvas();
+            initParticles();
+        };
+
+        window.onscroll = function() {
+            runCounters();
+        };
+    </script>
+</body>
+</html>
